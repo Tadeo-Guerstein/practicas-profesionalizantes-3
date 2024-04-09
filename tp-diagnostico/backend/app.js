@@ -32,10 +32,10 @@ app.use('/', async (req, res) => {
         const [departamentoData] = await connection.execute("SELECT id FROM departamento", [])
         const [municipioData] = await connection.execute("SELECT id FROM municipio", [])
 
-        console.log('provinciaData', provinciaData)
-        console.log('localidadData', localidadData)
-        console.log('departamentoData', departamentoData)
-        console.log('municipioData', municipioData)
+        // console.log('provinciaData', provinciaData)
+        // console.log('localidadData', localidadData)
+        // console.log('departamentoData', departamentoData)
+        // console.log('municipioData', municipioData)
 
         // if (provinciaData.length > 0 && localidadData.length > 0 && departamentoData.length > 0 && municipioData.length > 0) {
         //     await connection.end()
