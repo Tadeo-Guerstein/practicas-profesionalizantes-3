@@ -82,13 +82,12 @@ const RouteDataset = async (req, res) => {
                 })
             })
         }
-        // SENTENCIA SQL POST LOCALIDAD
 
         res.status(200).send({ data: [] })
         connection.end()
     } catch (error) {
         console.log('error', error)
-        res.status(401).send({ data: 'error', message: error })
+        res.status(409).send({ data: 'error', message: error })
     }
 }
 

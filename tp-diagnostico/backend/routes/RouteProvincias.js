@@ -10,7 +10,7 @@ const RouteProvincias = async (req, res) => {
         connection.end()
     } catch (error) {
         console.log('error', error)
-        res.status(401).send({ data: 'error', message: error })
+        res.status(409).send({ data: 'error', message: error })
     }
 }
 
