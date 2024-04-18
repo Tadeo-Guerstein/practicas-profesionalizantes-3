@@ -6,6 +6,41 @@ const selectMunicipios = document.getElementById("municipios-select")
 const selectLocalidades = document.getElementById("localidades-select")
 const pElement = document.getElementById("data-localidades")
 
+const deleteLocalChildren = () => {
+    const localidadesChildren = [...selectLocalidades.children]
+    if (localidadesChildren.length > 1) {
+        localidadesChildren.forEach((i) => {
+            if (i.value !== "Localidades") {
+                selectLocalidades.removeChild(i)
+            }
+        })
+        selectLocalidades.setAttribute("disabled", true)
+    }
+}
+
+const deleteMuniChildren = () => {
+    const municipiosChildren = [...selectMunicipios.children]
+    if (municipiosChildren.length > 1) {
+        municipiosChildren.forEach((i) => {
+            if (i.value !== "Municipios") {
+                selectMunicipios.removeChild(i)
+            }
+        })
+        selectMunicipios.setAttribute("disabled", true)
+    }
+}
+
+const deleteDeptChildren = () => {
+    const departamentosChildren = [...selectDepartamentos.children]
+    if (departamentosChildren.length > 1) {
+        departamentosChildren.forEach((i) => {
+            if (i.value !== "Departamentos") {
+                selectDepartamentos.removeChild(i)
+            }
+        })
+    }
+}
+
 
 const handleChangeLocalidad = () => {
     pElement.innerText = selectLocalidades.value
@@ -21,16 +56,7 @@ const handleChangeMunicipio = (ev) => {
 
             if (data.length > 0) {
                 selectLocalidades.removeAttribute("disabled")
-                const localidadesChildren = [...selectLocalidades.children]
-
-                if (localidadesChildren.length > 1) {
-                    localidadesChildren.forEach((i) => {
-                        if (i.value !== "Localidades") {
-                            selectLocalidades.removeChild(i)
-                        }
-                    })
-                }
-
+                deleteLocalChildren()
                 data.forEach((i) => {
                     const localidadesOptions = document.createElement("option")
                     localidadesOptions.value = JSON.stringify(i)
@@ -52,16 +78,8 @@ const handleChangeDepartamento = (ev) => {
 
             if (data.length > 0) {
                 selectMunicipios.removeAttribute("disabled")
-                const municipiosChildren = [...selectMunicipios.children]
-
-                if (municipiosChildren.length > 1) {
-                    municipiosChildren.forEach((i) => {
-                        if (i.value !== "Municipios") {
-                            selectMunicipios.removeChild(i)
-                        }
-                    })
-                }
-
+                deleteLocalChildren()
+                deleteMuniChildren()
                 data.forEach((i) => {
                     const municipiosOptions = document.createElement("option")
                     municipiosOptions.value = i.id
@@ -83,16 +101,9 @@ const handleChangeProvincia = (ev) => {
 
             if (data.length > 0) {
                 selectDepartamentos.removeAttribute("disabled")
-                const departamentosChildren = [...selectDepartamentos.children]
-
-                if (departamentosChildren.length > 1) {
-                    departamentosChildren.forEach((i) => {
-                        if (i.value !== "Departamentos") {
-                            selectDepartamentos.removeChild(i)
-                        }
-                    })
-                }
-
+                deleteLocalChildren()
+                deleteMuniChildren()
+                deleteDeptChildren()
                 data.forEach((i) => {
                     const departamentosOptions = document.createElement("option")
                     departamentosOptions.value = i.id
