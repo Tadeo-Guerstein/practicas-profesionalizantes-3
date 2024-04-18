@@ -6,7 +6,6 @@ const RouteLocalidad = async (req, res) => {
         const { params: { idMunicipio } } = { ...req }
         const connection = await mysql.createConnection(database)
         const [localidadData] = await connection.execute("SELECT * FROM localidad WHERE id_municipio = (?)", [idMunicipio])
-        console.log('localidadData', localidadData)
         res.status(200).send({ data: localidadData })
         connection.end()
     } catch (error) {

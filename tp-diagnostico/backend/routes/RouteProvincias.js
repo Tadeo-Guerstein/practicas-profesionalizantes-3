@@ -5,7 +5,6 @@ const RouteProvincias = async (req, res) => {
     try {
         const connection = await mysql.createConnection(database)
         const [provinciaData] = await connection.execute("SELECT * FROM provincia", [])
-        console.log('provinciaData', provinciaData)
         res.status(200).send({ data: provinciaData })
         connection.end()
     } catch (error) {
