@@ -1,13 +1,10 @@
-const mysql = require("mysql2/promise");
-const database = require("../connection/connection.json");
+const SQL = require("../sql");
 
 const RouteLocalidad = async (req, res) => {
     try {
         const { params: { idMunicipio } } = { ...req }
-        const connection = await mysql.createConnection(database)
-        const [localidadData] = await connection.execute("SELECT * FROM localidad WHERE id_municipio = (?)", [idMunicipio])
-        res.status(200).send({ data: localidadData })
-        connection.end()
+        const localidad = await SQL.getLocalidad(idMunicipio)
+        res.status(200).send({ data: localidad })
     } catch (error) {
         console.log('error', error)
         res.status(409).send({ data: 'error', message: error })
