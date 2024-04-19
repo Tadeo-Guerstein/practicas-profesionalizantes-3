@@ -4,6 +4,7 @@ const SQL = require("../sql");
 
 const RouteDataset = async (req, res) => {
     try {
+        await SQL.initConnection().then()
         const provinciaData = await SQL.getAllProvincias()
         const localidadData = await SQL.getAllLocalidades()
         const departamentoData = await SQL.getAllDepartamentos()
@@ -28,8 +29,8 @@ const RouteDataset = async (req, res) => {
             const provincias = await SQL.getAllProvincias()
             const departamentos = []
             excelData.forEach((data) => {
-                const provincia = provincias.find((i) => {
-                    return i.nombre === data.Provincia
+                const provincia = provincias.find((provinciaData) => {
+                    return provinciaData.nombre === data.Provincia
                 })
                 if (provincia) {
                     departamentos.push({ nombre: data.Departamento, provinciaID: provincia.id })
@@ -82,6 +83,7 @@ const RouteDataset = async (req, res) => {
             })
         }
 
+        await SQL.closeConnection()
         res.status(200).send({ data: [] })
     } catch (error) {
         console.log('error', error)
