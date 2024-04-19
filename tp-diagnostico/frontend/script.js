@@ -121,22 +121,22 @@ const handleOnLoad = () => {
             alert(JSON.stringify(response))
             return
         }
+        fetch(`${URL}provincias`)
+            .then((response) => response.json())
+            .then((response) => {
+                const { data } = { ...response }
+                console.log(data)
+                if (data.length > 0) {
+                    selectProvincias.removeAttribute("disabled")
+                    data.forEach((i) => {
+                        const provinciasOptions = document.createElement("option")
+                        provinciasOptions.value = i.id
+                        provinciasOptions.innerText = i.nombre
+                        selectProvincias.appendChild(provinciasOptions)
+                    })
+                    selectProvincias.addEventListener("change", handleChangeProvincia)
+                }
+            })
     })
 
-    fetch(`${URL}provincias`)
-        .then((response) => response.json())
-        .then((response) => {
-            const { data } = { ...response }
-
-            if (data.length > 0) {
-                selectProvincias.removeAttribute("disabled")
-                data.forEach((i) => {
-                    const provinciasOptions = document.createElement("option")
-                    provinciasOptions.value = i.id
-                    provinciasOptions.innerText = i.nombre
-                    selectProvincias.appendChild(provinciasOptions)
-                })
-                selectProvincias.addEventListener("change", handleChangeProvincia)
-            }
-        })
 }
