@@ -1,11 +1,9 @@
 import globals from 'globals'
-import eslintJs from '@eslint/js'
 
 export default [
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   {
     rules: {
-      ...eslintJs.configs.recommended.rules,
       'quotes': ['error', 'single'],
       'semi': ['error', 'never'],
       'array-callback-return': 'error',
@@ -62,9 +60,7 @@ export default [
       'prefer-object-spread': 'warn',
       'prefer-rest-params': 'warn',
       'prefer-template': 'warn',
-      'require-await': 'error',
-      'no-empty-function': 'error'
+      'require-await': 'error'
     }
   }
 ]
-

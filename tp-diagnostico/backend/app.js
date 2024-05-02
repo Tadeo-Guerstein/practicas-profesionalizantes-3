@@ -1,8 +1,8 @@
-const express = require("express")
-const cors = require("cors")
+const express = require('express')
+const cors = require('cors')
 const app = express()
 const PORT = 8080
-const { RouteDataset, RouteProvincias, RouteDepartamento, RouteMunicipio, RouteLocalidad } = require("./routes")
+const { RouteDataset, RouteProvincias, RouteDepartamento, RouteMunicipio, RouteLocalidad } = require('./routes')
 
 app.use(express.json())
 app.use(cors())
@@ -14,5 +14,5 @@ app.get('/municipios/:idDepartamento', RouteMunicipio)
 app.get('/localidades/:idMunicipio', RouteLocalidad)
 
 app.listen(PORT, () => {
-    console.log(`Your app is listening in http://localhost:${PORT}`)
+  console.info(`Your app is listening in http://localhost:${PORT}`)
 })
