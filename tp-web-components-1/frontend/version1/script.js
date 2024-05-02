@@ -197,39 +197,44 @@ class ABMComponent extends HTMLElement {
     this.appendChild(this._labelList)
     this.appendChild(this._table)
 
-    this._createButton.addEventListener('click', () => {
-      const name = prompt('Ingrese un nombre')
-      const saldo = parseFloat(prompt('Ingrese un saldo'))
+    this._createButton.onclick = this.createButtonEvent
+    this._listButton.onclick = this.listButtonEvent
+    this._updateButton.onclick = this.updateButtonEvent
+    this._deleteButton.onclick = this.deleteButtonEvent
+  }
 
-      console.info('new user', { name, saldo })
+  createButtonEvent = () => {
+    const name = prompt('Ingrese un nombre')
+    const saldo = parseFloat(prompt('Ingrese un saldo'))
+
+    console.info('new user', { name, saldo })
+  }
+
+  listButtonEvent = () => {
+    this.fillTable(cuentas)
+  }
+
+  updateButtonEvent = () => {
+    const id = parseInt(prompt('Ingrese el id'))
+    const nombre = prompt('Ingrese el nuevo nombre')
+    const saldo = prompt('Ingrese el nuevo saldo')
+    const usersChildren = this.getChildObject()
+    const oldUser = usersChildren.find((i) => {
+      return i.id === id
     })
+    const newUser = { ...oldUser, saldo: saldo, username: nombre }
 
-    this._listButton.addEventListener('click', () => {
-      this.fillTable(cuentas)
+    console.info('newUser', newUser)
+    console.info('oldUser', oldUser)
+  }
+
+  deleteButtonEvent = () => {
+    const id = parseInt(prompt('Ingrese el id'))
+    const usersChildren = this.getChildObject()
+    const user = usersChildren.find((i) => {
+      return i.id === id
     })
-
-    this._updateButton.addEventListener('click', () => {
-      const id = parseInt(prompt('Ingrese el id'))
-      const nombre = prompt('Ingrese el nuevo nombre')
-      const saldo = prompt('Ingrese el nuevo saldo')
-      const usersChildren = this.getChildObject()
-      const oldUser = usersChildren.find((i) => {
-        return i.id === id
-      })
-      const newUser = { ...oldUser, saldo: saldo, username: nombre }
-
-      console.info('newUser', newUser)
-      console.info('oldUser', oldUser)
-    })
-
-    this._deleteButton.addEventListener('click', () => {
-      const id = parseInt(prompt('Ingrese el id'))
-      const usersChildren = this.getChildObject()
-      const user = usersChildren.find((i) => {
-        return i.id === id
-      })
-      console.info('user', user)
-    })
+    console.info('user', user)
   }
 
   fillTable(array) {
@@ -248,7 +253,8 @@ class ABMComponent extends HTMLElement {
 
   deleteAllListChildren() {
     if (this._tableBody.children.length === 0) return
-    ;[...this._tableBody.children].forEach((i) => {
+    const arrayChildrens = [...this._tableBody.children]
+    arrayChildrens.forEach((i) => {
       if (i) {
         this._tableBody.removeChild(i)
       }

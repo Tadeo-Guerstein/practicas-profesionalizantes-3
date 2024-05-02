@@ -46,10 +46,10 @@ class ABMComponent extends HTMLElement {
     this.appendChild(this._labelList)
     this.appendChild(this._table)
 
-    this._createButton.addEventListener('click', this.createButtonEvent)
-    this._listButton.addEventListener('click', this.listButtonEvent)
-    this._updateButton.addEventListener('click', this.updateButtonEvent)
-    this._deleteButton.addEventListener('click', this.deleteButtonEvent)
+    this._createButton.onclick = this.createButtonEvent
+    this._listButton.onclick = this.listButtonEvent
+    this._updateButton.onclick = this.updateButtonEvent
+    this._deleteButton.onclick = this.deleteButtonEvent
   }
 
   createButtonEvent = async () => {
@@ -99,7 +99,8 @@ class ABMComponent extends HTMLElement {
 
   deleteAllListChildren() {
     if (this._tableBody.children.length === 0) return
-    ;[...this._tableBody.children].forEach((i) => {
+    const arrayChildrens = [...this._tableBody.children]
+    arrayChildrens.forEach((i) => {
       if (i) {
         this._tableBody.removeChild(i)
       }
