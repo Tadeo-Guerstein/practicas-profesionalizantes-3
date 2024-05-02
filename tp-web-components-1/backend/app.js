@@ -40,9 +40,10 @@ app.get("/users", async (req, res) => {
 app.post("/user", async (req, res) => {
     try {
         const { body } = req
-        const { id, username, saldo } = body
+        const { username, saldo } = body
         const connection = await mysql.createConnection(database)
-        await connection.execute("INSERT INTO web_user (id, username, saldo) VALUES (?, ?, ?)", [id, username, saldo])
+        const [lastID] = await connection.execute("SELECT MAX(id) AS last_id FROM web_user", [])
+        await connection.execute("INSERT INTO web_user (id, username, saldo) VALUES (?, ?, ?)", [lastID[0].last_id + 1, username, saldo])
         connection.end()
         res.status(200).send({ message: 'ok' })
     } catch (error) {
@@ -71,17 +72,6 @@ app.put("/user", async (req, res) => {
         await connection.execute("UPDATE web_user SET username = ?, saldo = ? WHERE id = ?", [username, saldo, id])
         connection.end()
         res.status(200).send({ message: 'ok' })
-    } catch (error) {
-        res.status(409).send({ error, cuentas: [] })
-    }
-})
-
-app.get("/lastID", async (req, res) => {
-    try {
-        const connection = await mysql.createConnection(database)
-        const [lastID] = await connection.execute("SELECT MAX(id) AS last_id FROM web_user", [])
-        connection.end()
-        res.status(200).send({ data: lastID[0].last_id })
     } catch (error) {
         res.status(409).send({ error, cuentas: [] })
     }
