@@ -46,34 +46,41 @@ class ABMComponent extends HTMLElement {
         this.appendChild(this._labelList)
         this.appendChild(this._table)
 
-        this._createButton.addEventListener("click", async () => {
-            const name = prompt("Ingrese un nombre")
-            const saldo = parseFloat(prompt("Ingrese un saldo"))
-            if (name && saldo && this._tableBody.children.length > 0) {
-                const data = await this.getLastID()
-                this.setUser(data + 1, name, parseFloat(saldo))
-            }
-        })
+        this._createButton.addEventListener("click", this.createButtonEvent)
+        this._listButton.addEventListener("click", this.listButtonEvent)
+        this._updateButton.addEventListener("click", this.updateButtonEvent)
+        this._deleteButton.addEventListener("click", this.deleteButtonEvent)
+    }
 
-        this._listButton.addEventListener("click", () => {
+    createButtonEvent = async () => {
+        const name = prompt("Ingrese un nombre")
+        const saldo = parseFloat(prompt("Ingrese un saldo"))
+        if (name && saldo && this._tableBody.children.length > 0) {
+            await this.setUser(name, parseFloat(saldo))
             this.listUsers()
-        })
+        }
+    }
 
-        this._updateButton.addEventListener("click", () => {
-            const id = parseInt(prompt("Ingrese el id"))
-            const nombre = prompt("Ingrese el nuevo nombre")
-            const saldo = prompt("Ingrese el nuevo saldo")
-            if (id && nombre && saldo) {
-                this.updateUser(id, nombre, parseFloat(saldo))
-            }
-        })
+    listButtonEvent = () => {
+        this.listUsers()
+    }
 
-        this._deleteButton.addEventListener("click", () => {
-            const id = parseInt(prompt("Ingrese el id"))
-            if (id) {
-                this.deleteUser(id)
-            }
-        })
+    updateButtonEvent = async () => {
+        const id = parseInt(prompt("Ingrese el id"))
+        const nombre = prompt("Ingrese el nuevo nombre")
+        const saldo = prompt("Ingrese el nuevo saldo")
+        if (id && nombre && saldo) {
+            await this.updateUser(id, nombre, parseFloat(saldo))
+            this.listUsers()
+        }
+    }
+
+    deleteButtonEvent = async () => {
+        const id = parseInt(prompt("Ingrese el id"))
+        if (id) {
+            await this.deleteUser(id)
+            this.listUsers()
+        }
     }
 
     fillTable(users) {
@@ -103,7 +110,7 @@ class ABMComponent extends HTMLElement {
     async fillDataSet() {
         await fetch(URL)
     }
-
+    
     async listUsers() {
         const users = await this.getUsers()
         this.fillTable(users)
@@ -120,21 +127,12 @@ class ABMComponent extends HTMLElement {
         }
     }
 
-    async getLastID() {
-        const response = await fetch(`${URL}lastID`)
-        if (response.status !== 409) {
-            const { data } = await response.json()
-            return data
-        }
-    }
-
-    async setUser(id, username, saldo) {
-        await fetch(`${URL}user`, {
+    async setUser(username, saldo) {
+        await await fetch(`${URL}user`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, username, saldo })
+            body: JSON.stringify({ username, saldo })
         })
-        this.listUsers()
     }
 
     async deleteUser(id) {
@@ -143,7 +141,6 @@ class ABMComponent extends HTMLElement {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id })
         })
-        this.listUsers()
     }
 
     async updateUser(id, username, saldo) {
@@ -152,7 +149,6 @@ class ABMComponent extends HTMLElement {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ id, username, saldo })
         })
-        this.listUsers()
     }
 
     disconnectedCallback() {
