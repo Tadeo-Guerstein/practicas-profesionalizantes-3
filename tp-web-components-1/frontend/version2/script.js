@@ -208,21 +208,15 @@ class ABMComponent extends HTMLElement {
     const saldo = parseFloat(prompt('Ingrese un saldo'))
 
     if (name && saldo && this._tableBody.children.length > 0) {
-      const rowElement = this._tableBody.insertRow()
-      const idElement = rowElement.insertCell()
-      const usernameElement = rowElement.insertCell()
-      const saldoElement = rowElement.insertCell()
-
-      idElement.innerText = parseInt(this._tableBody.children.length)
-      usernameElement.innerText = name
-      saldoElement.innerText = `$${saldo}`
-
-      console.info({ name, saldo })
+      const object = { id: parseInt(this._tableBody.children.length) + 1, username: name, saldo: `$${saldo}` }
+      cuentas.push(object)
+      this.fillTable()
+      console.info(object)
     }
   }
 
   listButtonEvent = () => {
-    this.fillTable(cuentas)
+    this.fillTable()
   }
 
   updateButtonEvent = () => {
@@ -230,40 +224,34 @@ class ABMComponent extends HTMLElement {
     const nombre = prompt('Ingrese el nuevo nombre')
     const saldo = prompt('Ingrese el nuevo saldo')
     if (id && nombre && saldo) {
-      const usersChildren = this.getChildObject()
-      const oldUser = usersChildren.find((i) => {
+      const userIndex = cuentas.findIndex((i) => {
         return i.id === id
       })
-      const userIndex = usersChildren.findIndex((i) => {
-        return i.id === id
-      })
+      const oldUser = cuentas[userIndex]
       const newUser = { ...oldUser, saldo: `$${saldo}`, username: nombre }
-
-      usersChildren[userIndex] = newUser
-
-      this.fillTable(usersChildren)
+      cuentas[userIndex] = newUser
+      this.listButtonEvent()
 
       console.info('newUser', newUser)
       console.info('oldUser', oldUser)
-      console.info('usersChildren', usersChildren)
     }
   }
 
   deleteButtonEvent = () => {
     const id = parseInt(prompt('Ingrese el id'))
     if (id) {
-      const usersChildren = this.getChildObject()
-      const newUsers = usersChildren.filter((i) => {
-        return i.id !== id
+      const userIndex = cuentas.findIndex((i) => {
+        return i.id === id
       })
-      this.fillTable(newUsers)
-      console.info('newUsers', newUsers)
+      cuentas.splice(userIndex, 1)
+      this.fillTable()
+      console.info('user', cuentas[userIndex])
     }
   }
 
-  fillTable(array) {
+  fillTable() {
     this.deleteAllListChildren()
-    array.forEach((i) => {
+    cuentas.forEach((i) => {
       const rowElement = this._tableBody.insertRow()
       const idElement = rowElement.insertCell()
       const usernameElement = rowElement.insertCell()
