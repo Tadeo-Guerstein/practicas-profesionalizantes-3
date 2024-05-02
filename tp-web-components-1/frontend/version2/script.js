@@ -228,7 +228,7 @@ class ABMComponent extends HTMLElement {
             const userIndex = usersChildren.findIndex((i) => {
                 return i.id === id
             })
-            const newUser = { ...oldUser, saldo: saldo, username: nombre }
+            const newUser = { ...oldUser, saldo: `$${saldo}`, username: nombre }
 
             usersChildren[userIndex] = newUser
 
