@@ -1,0 +1,374 @@
+<!doctype html>
+<html>
+  <!--
+	HTML/CSS/JS Calculator to MVC WebComponent Migration Exercise
+	Example code for ISFT151 for Educational Purposes
+	Prácticas Profesionalizantes III
+
+	Copyright 2021-2024 mgsantiago <mgsantiago@protonmail.com>
+
+	This program is free software; you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation; either version 2 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+	MA 02110-1301, USA.
+
+
+-->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MVC WebComponent Activity</title>
+  </head>
+
+  <style>
+    .numberButton {
+      background-color: blue;
+      color: #ffffff;
+      border-color: #ffffff;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .operatorButton {
+      background-color: #00ff04;
+      color: #ffffff;
+      border-color: #ffffff;
+      border-radius: 6px;
+      width: 100%;
+    }
+
+    .clearButton {
+      background-color: #ff0000;
+      color: #ffffff;
+      border-color: #ffffff;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .calculateButton {
+      background-color: #ffb900;
+      color: #ffffff;
+      border-color: #ffffff;
+      width: 100%;
+      border-radius: 6px;
+    }
+
+    .displayResult {
+      border-radius: 6px;
+    }
+  </style>
+
+  <body></body>
+
+  <script type="text/javascript">
+    class WCCalculatorController {
+      constructor(viewComponent, modelComponent) {
+        this._viewComponent = viewComponent
+        this._modelComponent = modelComponent
+      }
+
+      onClickButtonOne() {
+        this._viewComponent.updateInput('1')
+      }
+
+      onClickButtonTwo() {
+        this._viewComponent.updateInput('2')
+      }
+
+      onClickButtonThree() {
+        this._viewComponent.updateInput('3')
+      }
+
+      onClickButtonFour() {
+        this._viewComponent.updateInput('4')
+      }
+
+      onClickButtonFive() {
+        this._viewComponent.updateInput('5')
+      }
+
+      onClickButtonSix() {
+        this._viewComponent.updateInput('6')
+      }
+
+      onClickButtonSeven() {
+        this._viewComponent.updateInput('7')
+      }
+
+      onClickButtonEight() {
+        this._viewComponent.updateInput('8')
+      }
+
+      onClickButtonNine() {
+        this._viewComponent.updateInput('9')
+      }
+
+      onClickButtonZero() {
+        this._viewComponent.updateInput('0')
+      }
+
+      onClickButtonDecimal() {
+        this._viewComponent.updateInput('.')
+      }
+
+      onClickButtonPlus() {
+        this._viewComponent.updateInput(' + ')
+      }
+
+      onClickButtonMinus() {
+        this._viewComponent.updateInput(' - ')
+      }
+
+      onClickButtonProduct() {
+        this._viewComponent.updateInput(' * ')
+      }
+
+      onClickButtonDivide() {
+        this._viewComponent.updateInput(' / ')
+      }
+
+      onClickButtonClear() {
+        this._viewComponent.replaceInput('')
+      }
+
+      onClickButtonCalculate() {
+        const ecuation = this._viewComponent.getInputValue()
+        const result = this._modelComponent.calculate(ecuation)
+        this._viewComponent.replaceInput(result)
+      }
+    }
+
+    class WCCalculatorModel {
+      constructor() {}
+
+      calculate(ecuation) {
+        return eval(ecuation)
+      }
+    }
+
+    class WCCalculatorView extends HTMLElement {
+      constructor(modelComponent) {
+        super()
+        this._innerControler = new WCCalculatorController(this, modelComponent)
+        this._table = document.createElement('table')
+
+        this._firstRow = this._table.insertRow()
+        this._inputCell = this._firstRow.insertCell()
+        this._inputCell.setAttribute('colspan', 4)
+
+        this._secondRow = this._table.insertRow()
+        this._button7Cell = this._secondRow.insertCell()
+        this._button8Cell = this._secondRow.insertCell()
+        this._button9Cell = this._secondRow.insertCell()
+        this._buttonPlusCell = this._secondRow.insertCell()
+
+        this._thirdRow = this._table.insertRow()
+        this._button4Cell = this._thirdRow.insertCell()
+        this._button5Cell = this._thirdRow.insertCell()
+        this._button6Cell = this._thirdRow.insertCell()
+        this._buttonMinusCell = this._thirdRow.insertCell()
+
+        this._fourthRow = this._table.insertRow()
+        this._button1Cell = this._fourthRow.insertCell()
+        this._button2Cell = this._fourthRow.insertCell()
+        this._button3Cell = this._fourthRow.insertCell()
+        this._buttonProductCell = this._fourthRow.insertCell()
+
+        this._fifthRow = this._table.insertRow()
+        this._button0Cell = this._fifthRow.insertCell()
+        this._buttonDecimalCell = this._fifthRow.insertCell()
+        this._buttonCalculateCell = this._fifthRow.insertCell()
+        this._buttonDivideCell = this._fifthRow.insertCell()
+
+        this._sixthRow = this._table.insertRow()
+        this._buttonClearCell = this._sixthRow.insertCell()
+        this._buttonClearCell.setAttribute('colspan', 4)
+
+        this._input = document.createElement('input')
+        this._input.className = 'displayResult'
+        this._input.id = 'display'
+        this._input.type = 'text'
+        this._input.setAttribute('disabled', true)
+
+        this._button0 = document.createElement('button')
+        this._button0.className = 'numberButton'
+        this._button0.id = 'button0'
+        this._button0.innerText = '0'
+
+        this._button1 = document.createElement('button')
+        this._button1.className = 'numberButton'
+        this._button1.id = 'button1'
+        this._button1.innerText = '1'
+
+        this._button2 = document.createElement('button')
+        this._button2.className = 'numberButton'
+        this._button2.id = 'button2'
+        this._button2.innerText = '2'
+
+        this._button3 = document.createElement('button')
+        this._button3.className = 'numberButton'
+        this._button3.id = 'button3'
+        this._button3.innerText = '3'
+
+        this._button4 = document.createElement('button')
+        this._button4.className = 'numberButton'
+        this._button4.id = 'button4'
+        this._button4.innerText = '4'
+
+        this._button5 = document.createElement('button')
+        this._button5.className = 'numberButton'
+        this._button5.id = 'button5'
+        this._button5.innerText = '5'
+
+        this._button6 = document.createElement('button')
+        this._button6.className = 'numberButton'
+        this._button6.id = 'button6'
+        this._button6.innerText = '6'
+
+        this._button7 = document.createElement('button')
+        this._button7.className = 'numberButton'
+        this._button7.id = 'button7'
+        this._button7.innerText = '7'
+
+        this._button8 = document.createElement('button')
+        this._button8.className = 'numberButton'
+        this._button8.id = 'button8'
+        this._button8.innerText = '8'
+
+        this._button9 = document.createElement('button')
+        this._button9.className = 'numberButton'
+        this._button9.id = 'button9'
+        this._button9.innerText = '9'
+
+        this._buttonDecimalPoint = document.createElement('button')
+        this._buttonDecimalPoint.className = 'numberButton'
+        this._buttonDecimalPoint.id = 'buttonDecimalPoint'
+        this._buttonDecimalPoint.innerText = '.'
+
+        this._buttonPlus = document.createElement('button')
+        this._buttonPlus.className = 'operatorButton'
+        this._buttonPlus.innerText = '+'
+        this._buttonPlus.id = 'buttonPlus'
+
+        this._buttonMinus = document.createElement('button')
+        this._buttonMinus.className = 'operatorButton'
+        this._buttonMinus.innerText = '-'
+        this._buttonMinus.id = 'buttonMinus'
+
+        this._buttonProduct = document.createElement('button')
+        this._buttonProduct.className = 'operatorButton'
+        this._buttonProduct.innerText = '*'
+        this._buttonProduct.id = 'buttonProduct'
+
+        this._buttonDivide = document.createElement('button')
+        this._buttonDivide.className = 'operatorButton'
+        this._buttonDivide.innerText = '/'
+        this._buttonDivide.id = 'buttonDivision'
+
+        this._buttonCalculate = document.createElement('button')
+        this._buttonCalculate.className = 'operatorButton'
+        this._buttonCalculate.innerText = '='
+        this._buttonCalculate.id = 'buttonCalculate'
+
+        this._buttonClear = document.createElement('button')
+        this._buttonClear.className = 'clearButton'
+        this._buttonClear.id = 'buttonClear'
+        this._buttonClear.innerText = 'BORRAR'
+      }
+
+      connectedCallback() {
+        this._inputCell.appendChild(this._input)
+        this._button7Cell.appendChild(this._button7)
+        this._button8Cell.appendChild(this._button8)
+        this._button9Cell.appendChild(this._button9)
+        this._buttonPlusCell.appendChild(this._buttonPlus)
+        this._button4Cell.appendChild(this._button4)
+        this._button5Cell.appendChild(this._button5)
+        this._button6Cell.appendChild(this._button6)
+        this._buttonMinusCell.appendChild(this._buttonMinus)
+        this._button1Cell.appendChild(this._button1)
+        this._button2Cell.appendChild(this._button2)
+        this._button3Cell.appendChild(this._button3)
+        this._buttonProductCell.appendChild(this._buttonProduct)
+        this._button0Cell.appendChild(this._button0)
+        this._buttonDecimalCell.appendChild(this._buttonDecimalPoint)
+        this._buttonCalculateCell.appendChild(this._buttonCalculate)
+        this._buttonDivideCell.appendChild(this._buttonDivide)
+        this._buttonClearCell.appendChild(this._buttonClear)
+
+        this.appendChild(this._table)
+
+        this._button0.onclick = () => this._innerControler.onClickButtonZero()
+        this._button1.onclick = () => this._innerControler.onClickButtonOne()
+        this._button2.onclick = () => this._innerControler.onClickButtonTwo()
+        this._button3.onclick = () => this._innerControler.onClickButtonThree()
+        this._button4.onclick = () => this._innerControler.onClickButtonFour()
+        this._button5.onclick = () => this._innerControler.onClickButtonFive()
+        this._button6.onclick = () => this._innerControler.onClickButtonSix()
+        this._button7.onclick = () => this._innerControler.onClickButtonSeven()
+        this._button8.onclick = () => this._innerControler.onClickButtonEight()
+        this._button9.onclick = () => this._innerControler.onClickButtonNine()
+        this._buttonDecimalPoint.onclick = () => this._innerControler.onClickButtonDecimal()
+        this._buttonPlus.onclick = () => this._innerControler.onClickButtonPlus()
+        this._buttonMinus.onclick = () => this._innerControler.onClickButtonMinus()
+        this._buttonProduct.onclick = () => this._innerControler.onClickButtonProduct()
+        this._buttonDivide.onclick = () => this._innerControler.onClickButtonDivide()
+        this._buttonCalculate.onclick = () => this._innerControler.onClickButtonCalculate()
+        this._buttonClear.onclick = () => this._innerControler.onClickButtonClear()
+      }
+
+      updateInput(data) {
+        this._input.value += data
+      }
+
+      replaceInput(data) {
+        this._input.value = data
+      }
+
+      getInputValue() {
+        return this._input.value
+      }
+
+      disconnectedCallback() {
+        this._button0.onclick = null
+        this._button1.onclick = null
+        this._button2.onclick = null
+        this._button3.onclick = null
+        this._button4.onclick = null
+        this._button5.onclick = null
+        this._button6.onclick = null
+        this._button7.onclick = null
+        this._button8.onclick = null
+        this._button9.onclick = null
+        this._buttonDecimalPoint.onclick = null
+        this._buttonPlus.onclick = null
+        this._buttonMinus.onclick = null
+        this._buttonProduct.onclick = null
+        this._buttonDivide.onclick = null
+        this._buttonCalculate.onclick = null
+        this._buttonClear.onclick = null
+      }
+
+      adoptedCallback() {}
+
+      attributesChangedCallback(oldValue, newValue) {}
+
+      static get observableAttributes() {}
+    }
+
+    customElements.define('x-wc-component-view', WCCalculatorView)
+    const wcCalculatorModel = new WCCalculatorModel()
+    const wcCalculatorView = new WCCalculatorView(wcCalculatorModel)
+    document.body.appendChild(wcCalculatorView)
+  </script>
+</html>
