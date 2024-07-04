@@ -31,7 +31,7 @@ body {
 
 /* Add styles to the form container */
 .form-container {
-  max-width: 300px;
+  max-width: 500px;
   padding: 10px;
   background-color: white;
 }
@@ -44,7 +44,7 @@ body {
   border: none;
   background: #f1f1f1;
   resize: none;
-  min-height: 200px;
+  min-height: 50px;
 }
 
 /* When the textarea gets focus, do something */
@@ -127,7 +127,7 @@ body {
 
 .content-container {
   background-color: lightgray;
-  height: 100vh;
+  height: 50vh;
   padding: 10px;
   overflow-y: scroll;
 }

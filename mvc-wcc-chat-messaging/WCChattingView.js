@@ -8,10 +8,6 @@ class WCChattingView extends HTMLElement {
     this._chatTitle = document.createElement('h1')
     this._chatTitle.innerText = 'Chat'
 
-    this._chatLabel = document.createElement('label')
-    this._chatLabel.for = 'msg'
-    this._chatLabel.innerHTML = '<b>Message</b>'
-
     this._chatText = document.createElement('textarea')
     this._chatText.placeholder = 'Type message...'
     this._chatText.name = 'msg'
@@ -38,24 +34,19 @@ class WCChattingView extends HTMLElement {
     this._chatOpen.className = 'open-button'
     this._chatOpen.innerText = 'Chat'
 
-    this._title = document.createElement('h2')
-    this._title.innerText = 'Chat Messages'
-
     this._messagesContainer = document.createElement('div')
     this._messagesContainer.className = 'content-container'
-    this._messagesContainer.appendChild(this._title)
+    this._messagesContainer.appendChild(this._chatTitle)
 
-    this._form.appendChild(this._chatTitle)
-    this._form.appendChild(this._chatLabel)
     this._form.appendChild(this._chatText)
     this._form.appendChild(this._chatSubmit)
     this._form.appendChild(this._chatCancel)
+    this._chatContainer.appendChild(this._messagesContainer)
     this._chatContainer.appendChild(this._form)
 
     this._chattingController.onLoad()
 
     this.appendChild(this._chatOpen)
-    this.appendChild(this._messagesContainer)
     this.appendChild(this._chatContainer)
   }
 
